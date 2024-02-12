@@ -1,0 +1,31 @@
+label {
+  display: block; 
+  margin-bottom: 5px;
+  font-size:large;
+}
+
+input {
+  width: 100%; 
+  padding: 10px; 
+  margin-bottom: 10px; 
+  border-width: 1px;
+  border-radius: 5px;
+  border: 1px solid;
+}
+.search-container {
+  position: relative;
+}
+
+.search {
+  padding-right: 30px; /* Adjust this value based on the icon size and spacing you want */
+}
+
+.search-icon {
+  position: absolute;
+  right: 10px; /* Adjust this value based on the desired distance from the right side */
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+

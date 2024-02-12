@@ -1,0 +1,72 @@
+.main {
+    height: 91vh;
+    margin-top: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+    .left {
+      /* background-color: #0f3995; */
+      /* background-image: url("../assets/bgBC.png"); */
+      /* border: 2px solid #d70ded; */
+      display: flex;
+      flex-direction: column;
+      gap: 50px;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 30vw;
+    }
+    .right {
+      /* border: 2px solid #edda0d; */
+      height: 100vh;
+      width: 70vw;
+      display: flex;
+      align-items: center;
+      overflow: auto;
+      padding-top: 70px;
+      flex-direction: column;
+    }
+    .leftbtn{
+        position:"absolute";
+        /* top:400px; */
+        /* left:380px; */
+        margin-top: 180px;
+        margin-left: 240px;
+        transform:rotate(-6deg);
+    }
+    /* Define the initial button styles */
+    .scanbtn {
+      background-color: #0f3995;
+      color: aqua;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    
+    /* Define the hover effect */
+    .scanbtn:hover {
+      background-color: aqua;
+      color: #0f3995;
+      animation: neon 1s ease-in-out infinite;
+    }
+    
+    /* Create the neon animation */
+    @keyframes neon {
+      0% {
+        text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+      }
+      50% {
+        text-shadow: 0 0 20px rgba(0, 255, 255, 1);
+        box-shadow: 0 0 20px rgba(0, 255, 255, 1);
+      }
+      100% {
+        text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+      }
+    }
+    .pagination-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 25px
+    }

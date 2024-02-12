@@ -1,0 +1,15 @@
+.btn-save{
+    background-color: #fff;
+    padding: 10px;
+    width: 120px;
+    color: #0f3995;
+    border: 2.5px solid #0f3995;
+    border-radius: 10px;
+    font-weight: bolder;
+}
+
+.btn-save:hover{
+    background-color: #0f3995;
+    color: #fff;
+    transition: ease-in-out 0.5s;
+}

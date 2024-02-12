@@ -1,0 +1,5 @@
+.main {
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+    overflow-y: auto; /* Allow vertical scrolling */
+  }
+  

@@ -1,0 +1,70 @@
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    background: transparent;
+    bottom: 0;
+    color: transparent;
+    cursor: pointer;
+    height: auto;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: auto;
+}
+.inpMain {
+    padding: 5px;
+    min-width: 60px;
+    max-width: 61px;
+    border: 1px solid #0f3995;
+    border-radius: 10px;
+    position: relative;
+    display: inline-block; 
+}
+
+.inpMain input {
+    opacity: 0;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    z-index: 100; 
+}
+
+.inpMain .react-icons {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    color: #0f3995;
+    top: 25%;
+    left: 25%;
+    right: 5px; 
+    z-index: -10;
+    cursor: pointer;
+}
+
+  .vertical-tabs-container {
+    display: flex;
+  }
+  
+  .vertical-tab-list {
+    display: flex;
+    flex-direction: column;
+    width: 150px; /* Adjust the width as needed */
+  }
+  
+  .vertical-tab-list > .react-tabs__tab {
+    margin-bottom: 5px;
+  }
+  
+  .tab-content-container {
+    flex: 1;
+    padding: 10px; /* Add padding as needed */
+  }
+  
+  /* Add this to your existing CSS or create a new CSS file */
+.vertical-tab-list > .react-tabs__tab--selected {
+    background-color: #0f3995; /* Change the background color for the active tab */
+    color: #fff; /* Change the text color for the active tab */
+    /* Add any additional styles you want for the active tab */
+  }
+  

@@ -1,0 +1,23 @@
+.calMain{
+  padding: 5px;
+  min-width: 60px;
+  border: 1px solid #0f3995;
+  border-radius: 10px;
+  background-color: transparent;
+}
+
+.selected{
+    background-color: #0f3995;
+    color: #fff;
+}
+.calMain:hover{
+    background-color: #0f3995;
+    color: #fff;
+}
+.calDate{
+
+}
+
+.calDay{
+
+}
