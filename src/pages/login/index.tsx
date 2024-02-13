@@ -46,7 +46,7 @@ const Login = () => {
   }
   return (
     <div className="row h-100 w-100">
-      {loading && <Loader />}
+      {/* {loading && <Loader />} */}
       <div className="col-md-7 position-relative p-0">
         <div >
           <p className="position-absolute" style={{ color: '#fff', fontWeight: 'bold', fontSize: '30px', marginLeft: '100px', marginTop: '360px' }}>Welcome to <br />Mettler Health</p>
@@ -118,7 +118,7 @@ const Login = () => {
 
             </div>
           </div>
-          <div className="d-flex mt-2 row">
+          <div className="d-flex mt-3 row">
             <div className="col-md-1"></div>
             <div className="form-check col-md-4 p-0" style={{textAlign:'start'}}>
               <input
@@ -138,7 +138,7 @@ const Login = () => {
           <button
               type="submit"
               className="btn btn-primary col-md-12"
-              style={{ height: "56px" }} // Adjust the height as needed
+              style={{ height: "56px", fontSize:'20px' }} 
             >
               Login
           </button>

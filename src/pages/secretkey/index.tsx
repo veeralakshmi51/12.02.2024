@@ -91,7 +91,7 @@ const SecretKey = () => {
 
   return (
     <div className="row d-flex h-100 w-100">
-      { loading && <Loader />}
+      {/* { loading && <Loader />} */}
     <div className="col-md-6">
       <img className='img-fluid' style={{height:'99.5vh',width:'50vw'}} src={Image1} alt="Secret"></img>
     </div>

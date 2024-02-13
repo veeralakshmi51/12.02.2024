@@ -16,9 +16,8 @@ const ResetSecretKey = () => {
   const jwt = useSelector((state: any) => state.Login.jwt);
   const email = useSelector((state: any) => state.Login.data);
   console.log("email", email)
-  
-  
-    const [data,setData]=useState<Data>({
+
+  const [data,setData]=useState<Data>({
   email:"",
   jwt:jwt,
 });

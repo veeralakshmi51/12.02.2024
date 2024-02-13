@@ -11,27 +11,59 @@ export const handleLogin = async (dispatch: any, body: any, navigate: (p: string
         const response = await axios.post(`${baseURL}/user/signin`, body);
         console.log("Login response:", response);
       
+        // if (response.data.message.code === successCode) {
+        //     const { jwt, session, userType, organization,userDetail} = response.data.data;
+        //     const userEmail=userDetail ? userDetail.email:null;
+        //     const username = session.username;
+        //     const given=userDetail.name[0].given;
+        //     const family=userDetail.name[0].family;
+        //     localStorage.setItem('given',given);
+        //     localStorage.setItem('family',family);
+        //     localStorage.setItem('userDetailEmail',userEmail);
+        //     localStorage.setItem('userDetailUsername', username);
+        //     dispatch(saveLoginData(jwt.jwtToken));
+        //     dispatch(saveUserType(userType[0]));
+        //     dispatch(saveUserDetails(username));
+        //     dispatch(saveOrganization(organization));
+        //     toast.success(response.data.message.description)
+        //     navigate('/secret-key');
+        //     if(userType !== "Super Admin") {
+        //         const userEmail=response.data.data.userDetail.email;
+        //         localStorage.setItem('userDetailEmail',userEmail);
+        //         window.localStorage.setItem('LoginData', response.data.data.userDetail.id);
+        //         }
+        // } else {
+        //     toast.error(response.data.message.description);
+        //     dispatch(endLoading())
+        // }
         if (response.data.message.code === successCode) {
-            const { jwt, session, userType, organization,userDetail} = response.data.data;
-            const userEmail=userDetail ? userDetail.email:null;
+            const { jwt, session, userType, organization, userDetail } = response.data.data;
+            const userEmail = userDetail ? userDetail.email : null;
             const username = session.username;
-            localStorage.setItem('userDetailEmail',userEmail);
+            localStorage.setItem('userDetailEmail', userEmail);
             localStorage.setItem('userDetailUsername', username);
             dispatch(saveLoginData(jwt.jwtToken));
             dispatch(saveUserType(userType[0]));
             dispatch(saveUserDetails(username));
             dispatch(saveOrganization(organization));
-            toast.success(response.data.message.description)
-            navigate('/secret-key');
-            if(userType != "Super Admin") {
-                const userEmail=response.data.data.userDetail.email;
-                localStorage.setItem('userDetailEmail',userEmail);
-                window.localStorage.setItem('LoginData', response.data.data.userDetail.id);
+            toast.success(response.data.message.description);
+            if (userType[0] === "Super Admin") {
+                navigate('/secret-key');
+            } else {
+                if (userDetail && userDetail.name && userDetail.name.length > 0) {
+                    const given = userDetail.name[0].given;
+                    const family = userDetail.name[0].family;
+                    localStorage.setItem('given', given);
+                    localStorage.setItem('family', family);
                 }
+                navigate('/secret-key');
+            }
         } else {
             toast.error(response.data.message.description);
-            dispatch(endLoading())
+            dispatch(endLoading());
         }
+        
+        
     } catch (error) {
         // toast.error("Error during login:");
         dispatch(endLoading())

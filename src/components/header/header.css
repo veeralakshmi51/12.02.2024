@@ -111,3 +111,8 @@ opacity: 1;
 transition: var(--speed);
 overflow: visible;
 }
+
+.modalbody{
+  text-align: center;
+  margin: 10px;
+}

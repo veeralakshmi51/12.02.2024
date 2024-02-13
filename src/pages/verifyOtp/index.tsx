@@ -164,8 +164,11 @@ const VerifyOtp = () => {
     } else {
       console.log('No Mail Found in Local Storage');
     }
+    inputRefs.current[0]?.focus();
   }, []);
 
+
+  
   const handleInputChange = (index: number, value: string) => {
     const updatedOtp = data.otp.substring(0, index) + value + data.otp.substring(index + 1);
     setData({ ...data, otp: updatedOtp });
