@@ -5,6 +5,7 @@ export const initialState = {
   jwt: "",
   userType: "",
   userDetails: {},
+  userData: {},
   organization: ''
 };
 
@@ -34,6 +35,9 @@ const loginSlice = createSlice({
 
     saveOrganization(state, action) {
       state.organization = action.payload;
+    },
+    saveUserData (state, action) {
+      state.userData = action.payload
     }
   }
 });
@@ -44,7 +48,8 @@ export const {
   saveLoginData,
   saveUserType,
   saveUserDetails,
-  saveOrganization
+  saveOrganization,
+  saveUserData
 } = loginSlice.actions;
 
 export default loginSlice.reducer;

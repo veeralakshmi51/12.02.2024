@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { endLoading, saveLoginData, saveOrganization, saveUserDetails, saveUserType, startLoading } from './reducer'
+import { endLoading, saveLoginData, saveOrganization, saveUserData, saveUserDetails, saveUserType, startLoading } from './reducer'
 import { toast } from 'react-toastify';
 
 const baseURL = 'http://47.32.254.89:7000/api'
@@ -43,10 +43,11 @@ export const handleLogin = async (dispatch: any, body: any, navigate: (p: string
             localStorage.setItem('userDetailEmail', userEmail);
             localStorage.setItem('userDetailUsername', username);
             dispatch(saveLoginData(jwt.jwtToken));
-            dispatch(saveUserType(userType[0]));
             dispatch(saveUserDetails(username));
+            dispatch(saveUserData(response.data.data))
+            dispatch(saveUserType(userType[0]));
             dispatch(saveOrganization(organization));
-            dispatch(saveUserDetails(userDetail));
+            // dispatch(saveUserDetails(userDetail));
             toast.success(response.data.message.description);
             if (userType[0] === "Super Admin") {
                 navigate('/secret-key');
