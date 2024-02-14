@@ -25,12 +25,19 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ currentPage, subPage }) => {
   const [givenName, setGivenName] = useState("");
   const [familyName, setFamilyName] = useState("");
+  const [email, setEmail] = useState("");
   useEffect(() => {
     const given = localStorage.getItem("given");
     const family = localStorage.getItem("family");
     if (given && family) {
       setGivenName(given);
       setFamilyName(family);
+    }
+  }, []);
+  useEffect(() => {
+    const userEmail = localStorage.getItem("userDetailEmail");
+    if (userEmail) {
+      setEmail(userEmail);
     }
   }, []);
   const [open, setOpen] = useState(false);
@@ -61,12 +68,11 @@ const Header: React.FC<HeaderProps> = ({ currentPage, subPage }) => {
   const isVerifyOTP = location.pathname === "/verify-otp";
   const isResetSecret = location.pathname === "/resetSecretKey";
   const isReCreatePassword = location.pathname === "/recreatePassword";
-  const { jwt, userType, organization, userEmail } = useSelector(
+  const { jwt, userType, organization, userDetails } = useSelector(
     (state: any) => state.Login
   );
   const username = useSelector((state: any) => state.Login.userDetails);
   const { name } = useSelector((state: any) => state.Login.userDetails);
-
   const [modal, setModal] = useState(false);
   // Check if the current page is neither login nor secret-key
   const showLogoImg =
@@ -123,8 +129,14 @@ const Header: React.FC<HeaderProps> = ({ currentPage, subPage }) => {
   const handleProfileCheck = () => {
     setModal(!modal);
   };
-  console.log('Name array:', `${givenName} ${familyName}`);
+  console.log("Name array:", `${givenName} ${familyName}`);
 
+  const role = userDetails?.role || "";
+  const mobilePhone=userDetails?.contact?.[0]?.mobilePhone || "";
+  const dateOfBirth = userDetails?.dateofBirth || "";
+  const gender = userDetails?.gender || "";
+  const ssn = userDetails?.ssn || "";
+  const npi = userDetails?.npi || "";
   return (
     <div
       className={"row mHeader d-flex justify-content-center align-items-center"}
@@ -163,7 +175,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, subPage }) => {
               <Avatar
                 sx={{ width: 32, height: 32, backgroundColor: "#9F9FA2" }}
               >
-                {username.charAt(0).toUpperCase()}
+              {/* {username.charAt(0).toUpperCase()} */}
               </Avatar>
             </IconButton>
           </Tooltip>
@@ -219,7 +231,11 @@ const Header: React.FC<HeaderProps> = ({ currentPage, subPage }) => {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem onClick={handleProfileCheck}>
-        <Avatar />{`${givenName} ${familyName}`} <br /> {userType}
+          <Avatar />
+          {userType === "Super Admin"
+            ? username
+            : `${givenName} ${familyName}`}{" "}
+          <br /> {userType}
           <br />
           {organization}
         </MenuItem>
@@ -250,17 +266,19 @@ const Header: React.FC<HeaderProps> = ({ currentPage, subPage }) => {
           {/* <h5>UserName:{""}{username}</h5> */}
           {/* <h5>UserType:{""}{userType}</h5>
       <h5>Organization: {""} {organization}</h5> */}
-          <div className="row">
+          <div className="row w-100">
             <TextField
               id="outlined-basic-1"
               label="UserName"
               variant="outlined"
               fullWidth
               style={{ marginBottom: "20px" }}
-              value={`${givenName} ${familyName}`}
-              />
-          </div>
-          <div className="row">
+              value={
+                userType === "Super Admin"
+                  ? `${username}`
+                  : `${givenName} ${familyName}`
+              }
+            />
             <TextField
               id="outlined-basic-2"
               label="UserType"
@@ -273,12 +291,76 @@ const Header: React.FC<HeaderProps> = ({ currentPage, subPage }) => {
           <div className="row">
             <TextField
               id="outlined-basic-3"
-              label="Organization"
+              label="OrganizationID"
               variant="outlined"
               fullWidth
               style={{ marginBottom: "20px" }}
               value={organization}
             />
+          </div>
+          <div className="row">
+            <TextField
+              id="outlined-basic-4"
+              label="Email"
+              variant="outlined"
+              fullWidth
+              style={{ marginBottom: "20px" }}
+              value={email}
+            />
+          </div>
+          <div className="row">
+            <TextField
+              id="outlined-basic-5"
+              label="Role"
+              variant="outlined"
+              fullWidth
+              style={{ marginBottom: "20px" }}
+               value={role}
+            />
+          </div>
+          <div className="row">
+            <TextField
+              id="outlined-basic-6"
+              label="Contact"
+              variant="outlined"
+              fullWidth
+              style={{ marginBottom: "20px" }}
+               value={mobilePhone}
+            />
+          </div>
+          <div className="row">
+            <TextField
+            id="outlined-basic-7"
+            label="DateOfBirth"
+            fullWidth
+            style={{marginBottom:'20px'}}
+            value={dateOfBirth}
+            />
+          </div>
+          <div className="row">
+            <TextField
+            id="outlined-basic-8"
+            label="Gender"
+            fullWidth
+            style={{marginBottom:'20px'}}
+            value={gender}
+            />
+          </div>
+          <div className="row">
+            <TextField id="outlined-basic-9"
+            label="SSN"
+            fullWidth
+            style={{marginBottom:'20px'}}
+            value={ssn}
+            />
+          </div>
+          <div className="row">
+            <TextField
+            id="outlined-basic-8"
+            label="NPI#"
+            fullWidth
+            style={{marginBottom:'20px'}}
+            value={npi}/>
           </div>
         </ModalBody>
       </Modal>

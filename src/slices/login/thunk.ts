@@ -46,6 +46,7 @@ export const handleLogin = async (dispatch: any, body: any, navigate: (p: string
             dispatch(saveUserType(userType[0]));
             dispatch(saveUserDetails(username));
             dispatch(saveOrganization(organization));
+            dispatch(saveUserDetails(userDetail));
             toast.success(response.data.message.description);
             if (userType[0] === "Super Admin") {
                 navigate('/secret-key');
