@@ -18,6 +18,7 @@ import {
 import { FaUserCircle } from "react-icons/fa";
 import { Modal, ModalBody, ModalHeader } from "reactstrap";
 import { TextField } from "@mui/material";
+import Organization from "../../pages/organizationDetails";
 
 interface HeaderProps {
   currentPage: string;
@@ -71,18 +72,16 @@ const Header: React.FC<HeaderProps> = ({ currentPage, subPage }) => {
   const isResetSecret = location.pathname === "/resetSecretKey";
   const isReCreatePassword = location.pathname === "/recreatePassword";
 
-  const { jwt, userType,userDetails, userData } = useSelector(
+  const { jwt, userType, organization, userDetails, userData } = useSelector(
     (state: any) => state.Login
   );
   const { organizationDetails } = useSelector(
     (state: any) => state.Organization
   );
-  const organizationId = userData.userDetail?.organizationdetails?.[0]?.id;
-  const organization = organizationDetails.find((org: any) => org.id === organizationId);
-
   const username = useSelector((state: any) => state.Login.userDetails);
   const { name } = useSelector((state: any) => state.Login.userDetails);
   const [modal, setModal] = useState(false);
+  
   // Check if the current page is neither login nor secret-key
   const showLogoImg =
     !isLoginPage &&
@@ -154,9 +153,14 @@ const Header: React.FC<HeaderProps> = ({ currentPage, subPage }) => {
   const geofencing = userData.userDetail?.geofencing || "";
   const proximityVerification =
     userData.userDetail?.proximityVerification || "";
-  const orgName =
-    organizationDetails?.[12].organizationdetails?.[0]?.name || "";
+  //const orgName =organizationDetails?.[0]?.organizationdetails?.[0]?.name ||"";
   console.log("organization details:", organizationDetails);
+  console.log('org',organization)
+  const orgName = organizationDetails.find((org: any) => {
+    return org.id === organization;
+  })?.organizationdetails?.[0]?.name || "";
+  
+
   return (
     <div
       className={"row mHeader d-flex justify-content-center align-items-center"}
