@@ -18,6 +18,7 @@ import {
 import { FaUserCircle } from "react-icons/fa";
 import { Modal, ModalBody, ModalHeader } from "reactstrap";
 import { TextField } from "@mui/material";
+
 interface HeaderProps {
   currentPage: string;
   subPage: string;
@@ -25,6 +26,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ currentPage, subPage }) => {
   const [givenName, setGivenName] = useState("");
   const [familyName, setFamilyName] = useState("");
+
   const [email, setEmail] = useState("");
   useEffect(() => {
     const given = localStorage.getItem("given");
@@ -68,9 +70,16 @@ const Header: React.FC<HeaderProps> = ({ currentPage, subPage }) => {
   const isVerifyOTP = location.pathname === "/verify-otp";
   const isResetSecret = location.pathname === "/resetSecretKey";
   const isReCreatePassword = location.pathname === "/recreatePassword";
-  const { jwt, userType, organization, userDetails, userData } = useSelector(
+
+  const { jwt, userType,userDetails, userData } = useSelector(
     (state: any) => state.Login
   );
+  const { organizationDetails } = useSelector(
+    (state: any) => state.Organization
+  );
+  const organizationId = userData.userDetail?.organizationdetails?.[0]?.id;
+  const organization = organizationDetails.find((org: any) => org.id === organizationId);
+
   const username = useSelector((state: any) => state.Login.userDetails);
   const { name } = useSelector((state: any) => state.Login.userDetails);
   const [modal, setModal] = useState(false);
@@ -129,7 +138,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, subPage }) => {
   const handleProfileCheck = () => {
     setModal(!modal);
   };
-  console.log("Required User Details", userData);
+  //console.log("Required User Details", userData);
   const user = userData.userDetail?.username || "";
   const role = userData.userDetail?.role || "";
   const mobilePhone = userData.userDetail?.contact?.[0]?.mobilePhone || "";
@@ -137,12 +146,17 @@ const Header: React.FC<HeaderProps> = ({ currentPage, subPage }) => {
   const npi = userData.userDetail?.npi || "";
   const dateofBirth = userData.userDetail?.dateofBirth || "";
   const speciality = userData.userDetail?.speciality?.[0] || "";
-  const organizationName=userData.userDetail?.organizationdetails?.[0]?.name || "";
+  const organizationName =
+    userData.userDetail?.organizationdetails?.[0]?.name || "";
   const mobileNumber = userData.userDetail?.mobileNumber || "";
   const websiteURL = userData.userDetail?.websiteUrl || "";
-  const q15Access=userData.userDetail?.q15Access || "";
-  const geofencing=userData.userDetail?.geofencing || "";
-  const proximityVerification=userData.userDetail?.proximityVerification || "";
+  const q15Access = userData.userDetail?.q15Access || "";
+  const geofencing = userData.userDetail?.geofencing || "";
+  const proximityVerification =
+    userData.userDetail?.proximityVerification || "";
+  const orgName =
+    organizationDetails?.[12].organizationdetails?.[0]?.name || "";
+  console.log("organization details:", organizationDetails);
   return (
     <div
       className={"row mHeader d-flex justify-content-center align-items-center"}
@@ -181,7 +195,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, subPage }) => {
               <Avatar
                 sx={{ width: 32, height: 32, backgroundColor: "#9F9FA2" }}
               >
-                {/* {username.charAt(0).toUpperCase()} */}
+                {username.charAt(0).toUpperCase()}
               </Avatar>
             </IconButton>
           </Tooltip>
@@ -238,12 +252,19 @@ const Header: React.FC<HeaderProps> = ({ currentPage, subPage }) => {
       >
         <MenuItem onClick={handleProfileCheck}>
           <Avatar />
-          {userType === "Super Admin"
-            ? username
-            : `${givenName} ${familyName}`}{" "}
-          <br /> {userType}
-          <br />
-          {organization}
+          {userType === "Super Admin" ? (
+            <>
+              {username} <br />
+              {userType} <br />
+              {organizationName}
+            </>
+          ) : (
+            <>
+              {givenName} {familyName} <br />
+              {userType} <br />
+              {orgName}
+            </>
+          )}
         </MenuItem>
 
         <Divider />
@@ -261,188 +282,213 @@ const Header: React.FC<HeaderProps> = ({ currentPage, subPage }) => {
           Logout
         </MenuItem>
       </Menu>
-      <Modal isOpen={modal} toggle={() => setModal(false)} centered style={{ fontFamily: "calibri", fontSize: "20px" }}>
-        <ModalHeader toggle={() => setModal(false)}> User Profile Details</ModalHeader>
+      <Modal
+        isOpen={modal}
+        toggle={() => setModal(false)}
+        centered
+        style={{ fontFamily: "calibri", fontSize: "20px" }}
+      >
+        <ModalHeader toggle={() => setModal(false)}>
+          {" "}
+          User Profile Details
+        </ModalHeader>
         <ModalBody>
           {userType === "Super Admin" ? (
             <>
               <div className="row">
-              <TextField
-                id="outlined-basic-1"
-                label="UserName"
-                variant="outlined"
-                fullWidth
-                style={{ marginBottom: "10px" }}
-                value={username}
-              /></div>
+                <TextField
+                  id="outlined-basic-1"
+                  label="UserName"
+                  variant="outlined"
+                  fullWidth
+                  style={{ marginBottom: "10px" }}
+                  value={username}
+                />
+              </div>
               <div className="row ">
-
-              <TextField
-                id="outlined-basic-2"
-                label="UserType"
-                variant="outlined"
-                fullWidth
-                style={{ marginBottom: "10px" }}
-                value={userType}
-              /></div>
-              <div className="row">
-
-              <TextField
-                id="outlined-basic-3"
-                label="OrganizationName"
-                variant="outlined"
-                fullWidth
-                style={{ marginBottom: "10px" }}
-                value={organizationName}
-              /></div>
-              <div className="row">
-
-              <TextField
-                id="outlined-basic-3"
-                label="Email"
-                variant="outlined"
-                fullWidth
-                style={{ marginBottom: "10px" }}
-                value={email}
-              />
-              </div>
-              <div className="row">
-                <TextField id="outlined-basic-4"
-                variant="outlined"
-                label="MobileNumber"
-                fullWidth
-                style={{marginBottom:'10px'}}
-                value={mobileNumber}/>
-              </div>
-              <div className="row">
-                <TextField id="outlined-basic-5"
-                variant="outlined"
-                value={websiteURL}
-                fullWidth
-                label="Website URL"
-                style={{marginBottom:'10px'}}
+                <TextField
+                  id="outlined-basic-2"
+                  label="UserType"
+                  variant="outlined"
+                  fullWidth
+                  style={{ marginBottom: "10px" }}
+                  value={userType}
                 />
               </div>
               <div className="row">
-                <TextField id="outlined-basic-6"
-                variant="outlined"
-                value={geofencing}
-                fullWidth
-                style={{marginBottom:'10px'}}
-                label="GeoFencing"/>
-              </div>
-              <div className="row">
-                <TextField id="outlined-basic-7"
-                variant="outlined"
-                label="Q15Access"
-                fullWidth
-                style={{marginBottom:'10px'}}
-                value={q15Access}/>
+                <TextField
+                  id="outlined-basic-3"
+                  label="OrganizationName"
+                  variant="outlined"
+                  fullWidth
+                  style={{ marginBottom: "10px" }}
+                  value={organizationName}
+                />
               </div>
               <div className="row">
                 <TextField
-                id="outlined-basic-8"
-                label="ProximityVerification"
-                value={proximityVerification}
-                fullWidth
-                style={{marginBottom:'10px'}}
+                  id="outlined-basic-3"
+                  label="Email"
+                  variant="outlined"
+                  fullWidth
+                  style={{ marginBottom: "10px" }}
+                  value={email}
+                />
+              </div>
+              <div className="row">
+                <TextField
+                  id="outlined-basic-4"
+                  variant="outlined"
+                  label="MobileNumber"
+                  fullWidth
+                  style={{ marginBottom: "10px" }}
+                  value={mobileNumber}
+                />
+              </div>
+              <div className="row">
+                <TextField
+                  id="outlined-basic-5"
+                  variant="outlined"
+                  value={websiteURL}
+                  fullWidth
+                  label="Website URL"
+                  style={{ marginBottom: "10px" }}
+                />
+              </div>
+              <div className="row">
+                <TextField
+                  id="outlined-basic-6"
+                  variant="outlined"
+                  value={geofencing}
+                  fullWidth
+                  style={{ marginBottom: "10px" }}
+                  label="GeoFencing"
+                />
+              </div>
+              <div className="row">
+                <TextField
+                  id="outlined-basic-7"
+                  variant="outlined"
+                  label="Q15Access"
+                  fullWidth
+                  style={{ marginBottom: "10px" }}
+                  value={q15Access}
+                />
+              </div>
+              <div className="row">
+                <TextField
+                  id="outlined-basic-8"
+                  label="ProximityVerification"
+                  value={proximityVerification}
+                  fullWidth
+                  style={{ marginBottom: "10px" }}
                 />
               </div>
             </>
           ) : (
             <>
               <div className="row">
-
-              <TextField
-                id="outlined-basic-1"
-                label="Username"
-                variant="outlined"
-                fullWidth
-                style={{ marginBottom: "10px" }}
-                value={user}
-              /></div>
-              <div className="row w-100">
-
-              <TextField
-                id="outlined-basic-2"
-                label="Given Name"
-                variant="outlined"
-                fullWidth
-                style={{ marginBottom: "10px" }}
-                value={givenName}
-              /></div>
-              <div className="row">
-
-              <TextField
-                id="outlined-basic-2"
-                label="Family Name"
-                variant="outlined"
-                fullWidth
-                style={{ marginBottom: "10px" }}
-                value={familyName}
-              /></div>
+                <TextField
+                  id="outlined-basic-1"
+                  label="Username"
+                  variant="outlined"
+                  fullWidth
+                  style={{ marginBottom: "10px" }}
+                  value={user}
+                />
+              </div>
               <div className="row ">
-
-              <TextField
-                id="outlined-basic-3"
-                label="Email"
-                variant="outlined"
-                fullWidth
-                style={{ marginBottom: "10px" }}
-                value={email}
-              /></div>
-              <div className="row ">
-
-              <TextField
-                id="outlined-basic-4"
-                label="Role"
-                variant="outlined"
-                fullWidth
-                style={{ marginBottom: "10px" }}
-                value={role}
-              /></div>
-              <div className="row">
-
-              <TextField
-                id="outlined-basic-5"
-                label="Contact"
-                variant="outlined"
-                fullWidth
-                style={{ marginBottom: "10px" }}
-                value={mobilePhone}
-              /></div>
-              <div className="row ">
-
-              <TextField
-                id="outlined-basic-6"
-                label="SSN"
-                value={ssn}
-                fullWidth
-                style={{ marginBottom: "10px" }}
-              /></div>
-              <div className="row ">
-
-              <TextField
-                id="outlined-basic-7"
-                label="NPI"
-                fullWidth
-                variant="outlined"
-                style={{ marginBottom: "10px" }}
-                value={npi}
-              /></div>
-              <div className="row ">
-
-              <TextField
-                id="outlined-basic-8"
-                label="Speciality"
-                variant="outlined"
-                fullWidth
-                style={{ marginBottom: "10px" }}
-                value={speciality}
-              /></div>
+                <TextField
+                  id="outlined-basic-2"
+                  label="Given Name"
+                  variant="outlined"
+                  fullWidth
+                  style={{ marginBottom: "10px" }}
+                  value={givenName}
+                />
+              </div>
               <div className="row">
                 <TextField
+                  id="outlined-basic-2"
+                  label="Family Name"
+                  variant="outlined"
+                  fullWidth
+                  style={{ marginBottom: "10px" }}
+                  value={familyName}
+                />
+              </div>
+              <div className="row ">
+                <TextField
+                  id="outlined-basic-3"
+                  label="Email"
+                  variant="outlined"
+                  fullWidth
+                  style={{ marginBottom: "10px" }}
+                  value={email}
+                />
+              </div>
+              <div className="row">
+                <TextField
+                  id="outlined-basic-4"
+                  label="Organization Name"
+                  variant="outlined"
+                  value={orgName}
+                  fullWidth
+                  style={{ marginBottom: "20px" }}
+                />
+              </div>
+              <div className="row ">
+                <TextField
+                  id="outlined-basic-5"
+                  label="Role"
+                  variant="outlined"
+                  fullWidth
+                  style={{ marginBottom: "10px" }}
+                  value={role}
+                />
+              </div>
+              <div className="row">
+                <TextField
+                  id="outlined-basic-6"
+                  label="Contact"
+                  variant="outlined"
+                  fullWidth
+                  style={{ marginBottom: "10px" }}
+                  value={mobilePhone}
+                />
+              </div>
+              <div className="row ">
+                <TextField
+                  id="outlined-basic-7"
+                  label="SSN"
+                  value={ssn}
+                  fullWidth
+                  style={{ marginBottom: "10px" }}
+                />
+              </div>
+              <div className="row ">
+                <TextField
+                  id="outlined-basic-8"
+                  label="NPI"
+                  fullWidth
+                  variant="outlined"
+                  style={{ marginBottom: "10px" }}
+                  value={npi}
+                />
+              </div>
+              <div className="row ">
+                <TextField
                   id="outlined-basic-9"
+                  label="Speciality"
+                  variant="outlined"
+                  fullWidth
+                  style={{ marginBottom: "10px" }}
+                  value={speciality}
+                />
+              </div>
+              <div className="row">
+                <TextField
+                  id="outlined-basic-10"
                   label="DateOfBirth"
                   value={dateofBirth}
                   variant="outlined"
